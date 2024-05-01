@@ -1,51 +1,47 @@
-# Copyright (c) Streamlit Inc. (2018-2022) Snowflake Inc. (2022)
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import streamlit as st
-from streamlit.logger import get_logger
 
-LOGGER = get_logger(__name__)
+def registration():
+    st.title("Registration")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    confirm_password = st.text_input("Confirm Password", type="password")
 
+    if st.button("Register"):
+        if password == confirm_password:
+            st.success("Registration successful! You can now login.")
+            
+        else:
+            st.error("Passwords do not match. Please try again.")
 
-def run():
-    st.set_page_config(
-        page_title="Hello",
-        page_icon="👋",
-    )
+def login():
+    st.title("Login")
 
-    st.write("# Welcome to Streamlit! 👋")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
 
-    st.sidebar.success("Select a demo above.")
+    if st.button("Login"):
+        
+        if username == "admin" and password == "password":
+            st.success("Logged in successfully!")
+            st.write("Redirecting to the home page...")
+            home()
+        else:
+            st.error("Invalid username or password. Please try again.")
 
-    st.markdown(
-        """
-        Streamlit is an open-source app framework built specifically for
-        Machine Learning and Data Science projects.
-        **👈 Select a demo from the sidebar** to see some examples
-        of what Streamlit can do!
-        ### Want to learn more?
-        - Check out [streamlit.io](https://streamlit.io)
-        - Jump into our [documentation](https://docs.streamlit.io)
-        - Ask a question in our [community
-          forums](https://discuss.streamlit.io)
-        ### See more complex demos
-        - Use a neural net to [analyze the Udacity Self-driving Car Image
-          Dataset](https://github.com/streamlit/demo-self-driving)
-        - Explore a [New York City rideshare dataset](https://github.com/streamlit/demo-uber-nyc-pickups)
-    """
-    )
+def home():
+    st.title("Home")
 
+    st.write("Welcome to the home page!")
+
+def main():
+    st.sidebar.title("Navigation")
+    page = st.sidebar.radio("Go to", ("Login", "Registration"))
+
+    if page == "Login":
+        login()
+    elif page == "Registration":
+        registration()
 
 if __name__ == "__main__":
-    run()
+    main()
+
